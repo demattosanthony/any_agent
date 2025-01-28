@@ -16,6 +16,7 @@ import { useTheme } from "next-themes";
 import { useAtom } from "jotai";
 import { instructionsAtom, temperatureAtom } from "@/atoms/chat";
 import { useEffect, useState } from "react";
+import UtilityApiIntegration from "@/components/UtilityApiIntegration";
 
 export default function UserSettings() {
   const { data: user } = useMeQuery();
@@ -148,6 +149,11 @@ export default function UserSettings() {
             </div>
           </div>
         </section>
+
+        <div className="h-px bg-border" />
+
+        {/* Integrations Section */}
+        <UtilityApiIntegration />
       </div>
     </div>
   );

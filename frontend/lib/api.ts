@@ -343,6 +343,116 @@ class ApiClient {
       }
     }
   }
+
+  /// UTILITY API INTEGRATION
+  async createUtilityApiForm(email: string): Promise<{
+    uid: string;
+    url: string;
+    authorization_url: string;
+  }> {
+    const response = await fetch(`${this.baseUrl}/utilities/create-form`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ email }),
+    });
+
+    return await response.json();
+  }
+
+  async testSubmitForm(
+    uid: string,
+    utility: string,
+    scenario: string
+  ): Promise<{
+    referral: string;
+  }> {
+    const response = await fetch(
+      `${this.baseUrl}/utilities/forms/${uid}/test-submit-form`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ utility, scenario }),
+      }
+    );
+
+    return await response.json();
+  }
+
+  async triggerHistoricalCollection(meters: string[]) {
+    const response = await fetch(`${this.baseUrl}/utilities/meters`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ meters }),
+    });
+
+    return await response.json();
+  }
+
+  async getMeters(meterId: string) {
+    const response = await fetch(
+      `${this.baseUrl}/utilities/meters/${meterId}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+
+    return await response.json();
+  }
+
+  async getAuthorizations(params: {
+    uids?: string[];
+    forms?: string[];
+    templates?: string[];
+    users?: string[];
+    referrals?: string[];
+    is_archived?: boolean;
+    is_declined?: boolean;
+    is_test?: boolean;
+    is_revoked?: boolean;
+    is_expired?: boolean;
+    utility?: string[];
+    after?: string;
+    include?: string[];
+    expand_meter_blocks?: boolean;
+    limit?: number;
+  }) {
+    // Convert params to URLSearchParams
+    const searchParams = new URLSearchParams();
+
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined) {
+        if (Array.isArray(value)) {
+          searchParams.append(key, value.join(","));
+        } else if (typeof value === "boolean") {
+          searchParams.append(key, value.toString());
+        } else if (typeof value === "number") {
+          searchParams.append(key, value.toString());
+        } else {
+          searchParams.append(key, value);
+        }
+      }
+    });
+
+    const response = await fetch(
+      `${this.baseUrl}/utilities/authorizations?${searchParams.toString()}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+
+    return await response.json();
+  }
 }
 
 // Create and export a instance of ApiClient

@@ -50,6 +50,34 @@
       "when": 1738173733371,
       "tag": "0006_old_dragon_lord",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1738271649585,
+      "tag": "0007_icy_micromacro",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1738289741550,
+      "tag": "0008_tired_zarek",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1738335793668,
+      "tag": "0009_pg_crypto",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1738336704349,
+      "tag": "0010_sticky_silverclaw",
+      "breakpoints": true
     }
   ]
 }

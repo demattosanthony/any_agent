@@ -71,9 +71,9 @@ export default function ThreadsPage() {
         <div ref={scrollRef} className="h-10">
           {(isFetchingNextPage || isLoading) && (
             <div className="space-y-4">
-              <ThreadSkeleton />
-              <ThreadSkeleton />
-              <ThreadSkeleton />
+              {Array.from({ length: 8 }).map((_, i) => (
+                <ThreadSkeleton key={i} />
+              ))}
             </div>
           )}
         </div>
@@ -104,9 +104,7 @@ function ThreadItem({ thread }: { thread: Thread }) {
                 provider ? getModelIconPath(provider) || "" : "/ai-avatar.png"
               }
             />
-            <AvatarFallback>
-              {lastMessage.role === "user" ? "You" : "AI"}
-            </AvatarFallback>
+            <AvatarFallback />
           </Avatar>
 
           <div className="flex-1 min-w-0">
@@ -119,7 +117,7 @@ function ThreadItem({ thread }: { thread: Thread }) {
                 ? model
                 : "AI Assistant"}
             </p>
-            <p className="text-sm text-muted-foreground line-clamp-2 max-w-[calc(100%-12rem)] md:max-w-full">
+            <p className="text-sm text-muted-foreground line-clamp-2 max-w-[calc(100vw-8rem)] md:max-w-full">
               {lastMessage.content.text}
             </p>
             <time className="text-xs text-muted-foreground">

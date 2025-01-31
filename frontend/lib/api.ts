@@ -6,7 +6,7 @@ import { User } from "@/types/user";
  * ApiClient class handles all API communication with the backend server
  */
 class ApiClient {
-  private baseUrl: string;
+  public baseUrl: string;
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
@@ -28,6 +28,44 @@ class ApiClient {
     });
 
     return await response.json();
+  }
+
+  async createOrganization(name: string, domain: string) {
+    const res = await fetch(`${this.baseUrl}/organizations`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, domain }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to create organization");
+    }
+
+    return await res.json();
+  }
+
+  async organizationConfigureSaml(
+    org: { id: string; slug: string },
+    entryPoint: string,
+    issuer: string,
+    cert: string
+  ) {
+    const res = await fetch(`${this.baseUrl}/organizations/${org.id}`, {
+      method: "PUT",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        saml: {
+          entryPoint,
+          issuer,
+          cert,
+          callbackUrl: `${this.baseUrl}/auth/saml/${org.slug}/callback`,
+        },
+      }),
+    });
+
+    return res;
   }
 
   async createCheckoutSession(lookupKey: string): Promise<string> {

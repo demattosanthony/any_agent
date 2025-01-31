@@ -76,7 +76,6 @@ async function createMessage(
 }
 
 async function getThreads(userId: string, page: number, search: string) {
-  console.log("Getting threads for user:", userId);
   const offset = (page - 1) * LIMIT;
 
   try {

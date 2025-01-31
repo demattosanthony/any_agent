@@ -182,7 +182,7 @@ export default function ThreadPage() {
 
   return (
     <>
-      <ChatMessagesList messages={messages} />
+      <ChatMessagesList messages={messages} isGenerating={isLoading} />
 
       <div className="w-full flex items-center justify-center mx-auto px-6 pb-8 md:pb-4 md:p-2">
         <ChatInputForm

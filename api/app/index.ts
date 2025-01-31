@@ -16,6 +16,7 @@ import authRoutes from "./routes/auth";
 import threadRoutes from "./routes/threads";
 import modelRoutes from "./routes/model";
 import paymentRoutes from "./routes/payments";
+import organizationRoutes from "./routes/organizations";
 
 // Error Handling
 export function handleError(res: Express.Response, error: Error) {
@@ -42,6 +43,7 @@ async function main() {
   }
 
   app.use("/payments/webhook", Express.raw({ type: "application/json" }));
+  app.use("/auth/saml/:slug/callback", Express.urlencoded({ extended: false }));
   app.use(Express.json({ limit: "50mb" }));
 
   app.use(
@@ -57,6 +59,7 @@ async function main() {
   app.use("/threads", threadRoutes);
   app.use("/models", modelRoutes);
   app.use("/payments", paymentRoutes);
+  app.use("/organizations", organizationRoutes);
 
   app.post("/presigned-url", authMiddleware, async (req, res) => {
     try {

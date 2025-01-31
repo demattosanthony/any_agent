@@ -37,3 +37,5 @@ https://github.com/user-attachments/assets/b8c2bcd8-fc2e-4744-add3-c65405a76838
 - CMD + H = go to history
 - CMD + B = toggle sidebare
 - CMD + M = new chat
+
+**People like to use the highest quality most pollished product**

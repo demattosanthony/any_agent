@@ -1,7 +1,7 @@
 "use client";
 
 import MarkdownViewer from "../MarkdownViewer";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Check, Copy } from "lucide-react";
 import { Message } from "ai/react";
 import React from "react";
@@ -109,8 +109,10 @@ const MessageItem = React.memo(function MessageItem({
 
 const ChatMessagesList = React.memo(function ChatMessagesList({
   messages,
+  isGenerating,
 }: {
   messages: Message[];
+  isGenerating: boolean;
 }) {
   useEffect(() => {
     const messageContainer = document.querySelector(".overflow-y-auto");
@@ -118,6 +120,15 @@ const ChatMessagesList = React.memo(function ChatMessagesList({
       messageContainer.scrollTop = messageContainer.scrollHeight;
     }
   }, [messages.length]);
+
+  // If last message is from user and isGenerating is true, show "Thinking..." message
+  const firstTokenNotGeneratedYet = useMemo(() => {
+    return (
+      messages.length > 0 &&
+      isGenerating &&
+      messages[messages.length - 1].role === MessageRole.user
+    );
+  }, [messages, isGenerating]);
 
   return (
     <div className="flex-1 w-full h-full relative">
@@ -129,6 +140,17 @@ const ChatMessagesList = React.memo(function ChatMessagesList({
                 <MessageItem key={index} message={message} index={index} />
               ))}
             </>
+          )}
+
+          {firstTokenNotGeneratedYet && (
+            <MessageItem
+              message={{
+                role: MessageRole.assistant,
+                content: "",
+                id: "",
+              }}
+              index={messages.length}
+            />
           )}
         </div>
       </div>

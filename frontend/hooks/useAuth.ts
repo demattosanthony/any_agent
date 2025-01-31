@@ -18,8 +18,15 @@ export const useAuth = () => {
 
   const handleGoogleLogin = () => {
     router.push(`${
-      process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+      process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"
     }/auth/google 
+    `);
+  };
+
+  const handleSSOLogin = (slug: string) => {
+    router.push(`${
+      process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"
+    }/auth/saml/${slug}
     `);
   };
 
@@ -38,5 +45,5 @@ export const useAuth = () => {
     }
   }, []);
 
-  return { logOut, handleGoogleLogin };
+  return { logOut, handleGoogleLogin, handleSSOLogin };
 };
